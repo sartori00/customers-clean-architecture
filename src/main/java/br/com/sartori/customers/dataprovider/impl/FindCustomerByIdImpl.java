@@ -1,14 +1,16 @@
-package br.com.sartori.customers.dataprovider;
+package br.com.sartori.customers.dataprovider.impl;
 
-import br.com.sartori.customers.core.dataprovider.InsertCustomer;
+import br.com.sartori.customers.core.dataprovider.FindCustomerById;
 import br.com.sartori.customers.core.domain.Customer;
 import br.com.sartori.customers.dataprovider.mongodb.mapper.CustomerEntityMapper;
 import br.com.sartori.customers.dataprovider.mongodb.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
-public class InsertCustomerImpl implements InsertCustomer {
+public class FindCustomerByIdImpl implements FindCustomerById {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -17,8 +19,8 @@ public class InsertCustomerImpl implements InsertCustomer {
     private CustomerEntityMapper customerEntityMapper;
 
     @Override
-    public void insert(Customer customer) {
-        var customerEntity = customerEntityMapper.toCustomerEntity(customer);
-        customerRepository.save(customerEntity);
+    public Optional<Customer> findById(String id) {
+        var customerEntity = customerRepository.findById(id);
+        return customerEntity.map(entity -> customerEntityMapper.toCustomer(entity));
     }
 }

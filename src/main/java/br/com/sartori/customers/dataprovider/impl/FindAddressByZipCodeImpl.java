@@ -1,4 +1,4 @@
-package br.com.sartori.customers.dataprovider;
+package br.com.sartori.customers.dataprovider.impl;
 
 import br.com.sartori.customers.core.dataprovider.FindAddressByZipCode;
 import br.com.sartori.customers.core.domain.Address;
