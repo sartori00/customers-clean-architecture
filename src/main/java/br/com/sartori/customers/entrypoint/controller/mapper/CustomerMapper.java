@@ -2,6 +2,7 @@ package br.com.sartori.customers.entrypoint.controller.mapper;
 
 import br.com.sartori.customers.core.domain.Customer;
 import br.com.sartori.customers.entrypoint.controller.dto.CustomerRequest;
+import br.com.sartori.customers.entrypoint.controller.dto.CustomerResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -12,4 +13,6 @@ public interface CustomerMapper {
     @Mapping(target = "address", ignore = true)
     @Mapping(target = "isValidCpf", ignore = true)
     Customer toCustomer(CustomerRequest customerRequest);
+
+    CustomerResponse toCustomerResponse(Customer customer);
 }
