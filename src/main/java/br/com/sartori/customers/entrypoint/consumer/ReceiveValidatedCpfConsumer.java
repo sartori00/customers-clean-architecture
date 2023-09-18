@@ -13,12 +13,9 @@ public class ReceiveValidatedCpfConsumer {
     @Autowired
     private UpdateCustomerUseCase updateCustomerUseCase;
 
-    @Autowired
-    private CustomerMessageMapper customerMessageMapper;
-
     @KafkaListener(topics = "tp-cpf-validated", groupId = "sartori")
     public void receive(CustomerMessage customerMessage){
-        var customer = customerMessageMapper.toCustomer(customerMessage);
+        var customer = CustomerMessageMapper.INSTANCE.toCustomer(customerMessage);
         updateCustomerUseCase.update(customer, customerMessage.getZipCode());
     }
 }

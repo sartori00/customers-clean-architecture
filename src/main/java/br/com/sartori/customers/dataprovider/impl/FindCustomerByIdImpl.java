@@ -15,12 +15,9 @@ public class FindCustomerByIdImpl implements FindCustomerById {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private CustomerEntityMapper customerEntityMapper;
-
     @Override
     public Optional<Customer> findById(String id) {
         var customerEntity = customerRepository.findById(id);
-        return customerEntity.map(entity -> customerEntityMapper.toCustomer(entity));
+        return customerEntity.map(CustomerEntityMapper.INSTANCE::toCustomer);
     }
 }

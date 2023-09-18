@@ -28,25 +28,22 @@ public class CustomerController {
     @Autowired
     private DeleteCustomerByIdUseCase deleteCustomerByIdUseCase;
 
-    @Autowired
-    private CustomerMapper customerMapper;
-
     @PostMapping
     public ResponseEntity<Void> insert(@RequestBody @Valid CustomerRequest request){
-        insertCustomerUseCase.insert(customerMapper.toCustomer(request), request.zipCode());
+        insertCustomerUseCase.insert(CustomerMapper.INSTANCE.toCustomer(request), request.zipCode());
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> findById(@PathVariable("id") final String id){
         var customer = findCustomerByIdUseCase.findById(id);
-        return ResponseEntity.ok().body(customerMapper.toCustomerResponse(customer));
+        return ResponseEntity.ok().body(CustomerMapper.INSTANCE.toCustomerResponse(customer));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") final String id,
                                        @RequestBody @Valid CustomerRequest request){
-        var customer = customerMapper.toCustomer(request);
+        var customer = CustomerMapper.INSTANCE.toCustomer(request);
         customer.setId(id);
 
         updateCustomerUseCase.update(customer, request.zipCode());
