@@ -1,5 +1,6 @@
 package br.com.sartori.customers.entrypoint.controller;
 
+import br.com.sartori.customers.core.usecase.DeleteCustomerByIdUseCase;
 import br.com.sartori.customers.core.usecase.FindCustomerByIdUseCase;
 import br.com.sartori.customers.core.usecase.InsertCustomerUseCase;
 import br.com.sartori.customers.core.usecase.UpdateCustomerUseCase;
@@ -25,6 +26,9 @@ public class CustomerController {
     private UpdateCustomerUseCase updateCustomerUseCase;
 
     @Autowired
+    private DeleteCustomerByIdUseCase deleteCustomerByIdUseCase;
+
+    @Autowired
     private CustomerMapper customerMapper;
 
     @PostMapping
@@ -48,7 +52,12 @@ public class CustomerController {
         updateCustomerUseCase.update(customer, request.zipCode());
 
         return ResponseEntity.ok().build();
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable("id") final String id){
+        deleteCustomerByIdUseCase.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
