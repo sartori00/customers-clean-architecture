@@ -2,6 +2,7 @@ package br.com.sartori.customers.core.usecase.impl;
 
 import br.com.sartori.customers.core.dataprovider.FindAddressByZipCode;
 import br.com.sartori.customers.core.dataprovider.InsertCustomer;
+import br.com.sartori.customers.core.dataprovider.SendCpfForValidation;
 import br.com.sartori.customers.core.domain.Customer;
 import br.com.sartori.customers.core.usecase.InsertCustomerUseCase;
 
@@ -11,9 +12,15 @@ public class InsertCustomerUseCaseImpl implements InsertCustomerUseCase {
 
     private final InsertCustomer insertCustomer;
 
-    public InsertCustomerUseCaseImpl(FindAddressByZipCode findAddressByZipCod, InsertCustomer insertCustomer) {
+    private final SendCpfForValidation sendCpfForValidation;
+
+    public InsertCustomerUseCaseImpl(FindAddressByZipCode findAddressByZipCod,
+                                     InsertCustomer insertCustomer,
+                                     SendCpfForValidation sendCpfForValidation) {
+
         this.findAddressByZipCode = findAddressByZipCod;
         this.insertCustomer = insertCustomer;
+        this.sendCpfForValidation = sendCpfForValidation;
     }
 
     @Override
@@ -22,5 +29,6 @@ public class InsertCustomerUseCaseImpl implements InsertCustomerUseCase {
         customer.setAddress(address);
 
         insertCustomer.insert(customer);
+        sendCpfForValidation.send(customer.getCpf());
     }
 }
