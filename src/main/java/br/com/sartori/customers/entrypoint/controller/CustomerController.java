@@ -37,7 +37,8 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> findById(@PathVariable("id") final String id){
         var customer = findCustomerByIdUseCase.findById(id);
-        return ResponseEntity.ok().body(CustomerMapper.INSTANCE.toCustomerResponse(customer));
+        var retorno = CustomerMapper.INSTANCE.toCustomerResponse(customer);
+        return ResponseEntity.ok().body(retorno);
     }
 
     @PutMapping("/{id}")
